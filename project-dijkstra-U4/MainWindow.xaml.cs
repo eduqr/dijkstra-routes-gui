@@ -36,6 +36,7 @@ namespace project_dijkstra_U4
         public MainWindow()
         {
             InitializeComponent();
+            CompositionTarget.Rendering += OnRendering;
 
             map = new int[MapRows, MapCols];
             cityEllipses = new Ellipse[MapRows, MapCols];
@@ -93,9 +94,6 @@ namespace project_dijkstra_U4
                 }
             }
         }
-
-
-        
 
         private bool CityExistsAt(int row, int col)
         {
@@ -182,7 +180,6 @@ namespace project_dijkstra_U4
         }
 
         private List<City> citiesList = new List<City>();
-        
 
         private void AddCityToMap(string cityName)
         {
@@ -224,8 +221,6 @@ namespace project_dijkstra_U4
             }
         }
 
-
-
         private void CityEllipse_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is Ellipse cityEllipse)
@@ -242,14 +237,23 @@ namespace project_dijkstra_U4
             }
         }
 
+        private void OnRendering(object sender, EventArgs e)
+        {
+            Point mousePosition = Mouse.GetPosition(this);
 
+            double windowWidth = ActualWidth;
+            double windowHeight = ActualHeight;
 
+            double topBarHeight = SystemParameters.WindowCaptionHeight;
 
+            double centerX = windowWidth / 2;
+            double centerY = (windowHeight - topBarHeight + 100) / 2;
 
+            // Hacer coordenadas(0,0) en el centro del grid
+            double relativeX = mousePosition.X - centerX;
+            double relativeY = mousePosition.Y - centerY;
 
-
-
-
-
+            TB_Coords.Text = (relativeY < -240) ? "(X: #, Y: #)" : $"(X: {relativeX}, Y: {relativeY})";
+        }
     }
 }

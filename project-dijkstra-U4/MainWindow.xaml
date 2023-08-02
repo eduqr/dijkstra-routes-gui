@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:project_dijkstra_U4"
         mc:Ignorable="d"
-        Title="Rutas mínimas de ciudades" ResizeMode="CanMinimize" Height="600" Width="800">
+        Title="Rutas mínimas de ciudades" ResizeMode="CanMinimize" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
@@ -16,5 +16,6 @@
         <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="264,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="180" Height="18"/>
         <Label Content="Nombre del archivo txt a leer: " HorizontalAlignment="Left" Margin="45,0,0,0" VerticalAlignment="Center" Height="36" Width="214" FontSize="14" FontWeight="Bold"/>
         <Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>
+        <TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Top"/>
     </Grid>
 </Window>
