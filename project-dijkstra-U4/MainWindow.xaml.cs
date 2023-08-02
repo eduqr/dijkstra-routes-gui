@@ -29,15 +29,17 @@ namespace project_dijkstra_U4
 
         private const int MapRows = 20;
         private const int MapCols = 30;
+        private int adjacencies = 0;
 
         private int[,] map;
         private List<City> cities;
         private Ellipse[,] cityEllipses;
-
+        
         public MainWindow()
         {
             InitializeComponent();
             CompositionTarget.Rendering += OnRendering;
+            CityAdjacencyLine();
 
             map = new int[MapRows, MapCols];
             cityEllipses = new Ellipse[MapRows, MapCols];
@@ -52,8 +54,8 @@ namespace project_dijkstra_U4
                 }
             }
 
-            CreateMap();
-            
+            //CreateMap();
+
         }
 
         private void CreateMap()
@@ -140,6 +142,7 @@ namespace project_dijkstra_U4
                     while (!lector.EndOfStream)
                     {
                         linea = lector.ReadLine();
+                        adjacencies++;
                         if (!string.IsNullOrWhiteSpace(linea)) // Verificar que la línea no esté vacía ni sea nula
                         {
                             string[] datos = linea.Split(' ');
@@ -154,8 +157,13 @@ namespace project_dijkstra_U4
                                     //lógica para crear conexiones entre las ciudades basadas en las distancias
 
                                     // Luego, si es posible, agrega las ciudades al mapa
-                                    AddCityToMap(ciudad1);
-                                    AddCityToMap(ciudad2);
+                                    Location origin = AddCityToMap(ciudad1);
+                                    Location destiny = AddCityToMap(ciudad2);
+                                    // Se dibujan las líneas
+
+                                   
+                                    //CityAdjacencyLine(origin, destiny);
+                                    MessageBox.Show("Simón");
                                 }
                                 else
                                 {
@@ -168,7 +176,7 @@ namespace project_dijkstra_U4
                             }
                         }
                     }
-
+                    GetCities();
                     lector.Close();
                 }
                 else
@@ -184,9 +192,10 @@ namespace project_dijkstra_U4
 
         private List<City> citiesList = new List<City>();
 
-        private void AddCityToMap(string cityName)
+        private Location AddCityToMap(string cityName)
         {
             Random random = new Random();
+            Location location = new Location();
 
             while (cities.Count < citiesToAdd)
             {
@@ -199,6 +208,8 @@ namespace project_dijkstra_U4
                     if (!citiesList.Any(c => c.Name == cityName))
                     {
                         City city = new City(cityName, row, col);
+                        location.row = row;
+                        location.column = col;
                         cities.Add(city);
                         citiesList.Add(city);
 
@@ -218,10 +229,13 @@ namespace project_dijkstra_U4
                         Grid.SetColumn(cityEllipse, col);
                         gridMap.Children.Add(cityEllipse);
                         cityEllipses[row, col] = cityEllipse;
+                        return location;
                     }
                     break;
                 }
             }
+            return location;
+            
         }
 
         private void CityEllipse_MouseEnter(object sender, MouseEventArgs e)
@@ -239,6 +253,35 @@ namespace project_dijkstra_U4
                 // Establecer el ToolTip en el Ellipse para mostrar la leyenda cerca del punto rojo
                 cityEllipse.ToolTip = tooltip;
             }
+        }
+
+        private void CityAdjacencyLine(/*Location origin, Location destiny*/)
+        {
+            Line objLine = new Line();
+
+            double xa = 12.55;
+            double ya = 98;
+
+            objLine.Stroke = Brushes.Violet;
+            objLine.Fill = Brushes.Yellow;
+            objLine.Width = 10;
+            objLine.Height = 10;
+
+            objLine.X1 = /*origin.column*/+xa;
+            objLine.Y1 = /*origin.row */ +ya;
+            objLine.X2 = /*destiny.column */ +xa;
+            objLine.Y2 = /*destiny.row */ +ya;
+
+            MainGrid.Children.Add(objLine);
+
+        }
+
+        private void GetCities()
+        {
+            CBox_Origen.ItemsSource = cities;
+            CBox_Destino.ItemsSource = cities;
+            CBox_Origen.DisplayMemberPath = "Name";
+            CBox_Destino.DisplayMemberPath = "Name";
         }
 
         private void OnRendering(object sender, EventArgs e)
