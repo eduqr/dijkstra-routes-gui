@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -180,6 +181,8 @@ namespace project_dijkstra_U4
             }
         }
 
+        private List<City> citiesList = new List<City>();
+        
 
         private void AddCityToMap(string cityName)
         {
@@ -192,24 +195,60 @@ namespace project_dijkstra_U4
 
                 if (map[row, col] == 0 && !CityExistsAt(row, col))
                 {
-                    City city = new City(cityName, row, col);
-                    cities.Add(city);
-
-                    Ellipse cityEllipse = new Ellipse
+                    // Verificar si la ciudad ya existe en la lista de ciudades
+                    if (!citiesList.Any(c => c.Name == cityName))
                     {
-                        Width = 10,
-                        Height = 10,
-                        Fill = Brushes.Red // Punto rojo
-                    };
+                        City city = new City(cityName, row, col);
+                        cities.Add(city);
+                        citiesList.Add(city);
 
-                    Grid.SetRow(cityEllipse, row);
-                    Grid.SetColumn(cityEllipse, col);
-                    gridMap.Children.Add(cityEllipse);
-                    cityEllipses[row, col] = cityEllipse;
+                        Ellipse cityEllipse = new Ellipse
+                        {
+                            Width = 10,
+                            Height = 10,
+                            Fill = Brushes.Red // Punto rojo
+                        };
+
+                        // Añadir el nombre de la ciudad como un atributo del Ellipse
+                        cityEllipse.ToolTip = cityName;
+
+                        
+
+                        Grid.SetRow(cityEllipse, row);
+                        Grid.SetColumn(cityEllipse, col);
+                        gridMap.Children.Add(cityEllipse);
+                        cityEllipses[row, col] = cityEllipse;
+                    }
                     break;
                 }
             }
         }
+
+
+
+        private void CityEllipse_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is Ellipse cityEllipse)
+            {
+                string cityName = cityEllipse.ToolTip.ToString();
+
+                // Mostrar la leyenda cerca del punto rojo
+                ToolTip tooltip = new ToolTip
+                {
+                    Content = cityName
+                };
+                // Establecer el ToolTip en el Ellipse para mostrar la leyenda cerca del punto rojo
+                cityEllipse.ToolTip = tooltip;
+            }
+        }
+
+
+
+
+
+
+
+
 
 
     }
