@@ -69,7 +69,6 @@
         <Label Content="Nodo Destino: " HorizontalAlignment="Left" Margin="315,65,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontWeight="Bold"/>
         <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="150,69,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="425,69,0,0" VerticalAlignment="Top" Width="120"/>
-        <Rectangle HorizontalAlignment="Left" Height="99" Margin="611,30,0,0" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="100"/>
         <!--<Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>-->
         <!--<TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" TextAlignment="Right" VerticalAlignment="Top"/>-->
     </Grid>
