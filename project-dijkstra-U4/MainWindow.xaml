@@ -13,9 +13,59 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1" Name="gridMap" ShowGridLines="False" Margin="0"/>
-        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="264,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="180" Height="18"/>
-        <Label Content="Nombre del archivo txt a leer: " HorizontalAlignment="Left" Margin="45,0,0,0" VerticalAlignment="Center" Height="36" Width="214" FontSize="14" FontWeight="Bold"/>
-        <Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>
-        <TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Top"/>
+
+        <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="220">
+            <ToolBar DockPanel.Dock="Top">
+                <Button>
+                    <Button.Content>
+                        <Image Source="/Images/blank-page.png" Width="16" Height="16" />
+                    </Button.Content>
+                    <Button.ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="SemiBold" FontSize="14" Margin="0,0,0,5">Nuevo archivo</TextBlock>
+                            <TextBlock>
+                                Crear un archivo de texto
+                            </TextBlock>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button>
+                <Button x:Name="BTN_OpenFileExplorer" Click="BTN_OpenFileExplorer_Click">
+                    <Button.Content>
+                        <Image Source="/Images/open-folder.png" Width="16" Height="16" />
+                    </Button.Content>
+                    <Button.ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="SemiBold" FontSize="14" Margin="0,0,0,5">Abrir archivo</TextBlock>
+                            <TextBlock>
+                                Buscar un archivo de texto 
+                                <LineBreak />
+                                existente con las ciudades
+                            </TextBlock>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button>
+                <Button x:Name="BTN_Leer" Click="BTN_Leer_Click">
+                    <Button.Content>
+                        <Image Source="/Images/pencil.png" Width="16" Height="16" />
+                    </Button.Content>
+                    <Button.ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="SemiBold" FontSize="14" Margin="0,0,0,5">Dibujar ciudades</TextBlock>
+                            <TextBlock>
+                                Dibujar las ciudades y adyacencias
+                                <LineBreak />
+                                en el mapa
+                            </TextBlock>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button>
+                <TextBlock x:Name="TB_Coords" FontSize="13" VerticalAlignment="Center" TextAlignment="Justify" Margin="10,0,0,0" Foreground="Gray" Text="(X: -999, Y: -999)"/>
+            </ToolBar>
+        </DockPanel>
+
+        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="170,41,0,40" TextWrapping="Wrap" Width="235" IsReadOnly="True"/>
+        <Label Content="Ruta del archivo: " HorizontalAlignment="Left" Margin="45,0,0,0" VerticalAlignment="Center" Width="120" FontSize="14" FontWeight="Bold"/>
+        <!--<Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>-->
+        <!--<TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" TextAlignment="Right" VerticalAlignment="Top"/>-->
     </Grid>
 </Window>

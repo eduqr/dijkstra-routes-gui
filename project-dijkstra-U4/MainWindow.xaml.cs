@@ -1,4 +1,5 @@
-﻿using project_dijkstra_U4.Folder;
+﻿using Microsoft.Win32;
+using project_dijkstra_U4.Folder;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -107,6 +108,8 @@ namespace project_dijkstra_U4
 
         private void BTN_Leer_Click(object sender, RoutedEventArgs e)
         {
+            cities.Clear();
+            citiesList.Clear();
             string nombreArchivo = TXT_Archivo.Text;
             string escritorio = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             string rutaArchivo = Path.Combine(escritorio, nombreArchivo);
@@ -230,7 +233,8 @@ namespace project_dijkstra_U4
                 // Mostrar la leyenda cerca del punto rojo
                 ToolTip tooltip = new ToolTip
                 {
-                    Content = cityName
+                    Content = cityName,
+                    
                 };
                 // Establecer el ToolTip en el Ellipse para mostrar la leyenda cerca del punto rojo
                 cityEllipse.ToolTip = tooltip;
@@ -249,11 +253,21 @@ namespace project_dijkstra_U4
             double centerX = windowWidth / 2;
             double centerY = (windowHeight - topBarHeight + 100) / 2;
 
-            // Hacer coordenadas(0,0) en el centro del grid
+            // Hacer coordenadas (0,0) en el centro del mapa
             double relativeX = mousePosition.X - centerX;
             double relativeY = mousePosition.Y - centerY;
 
-            TB_Coords.Text = (relativeY < -240) ? "(X: #, Y: #)" : $"(X: {relativeX}, Y: {relativeY})";
+            TB_Coords.Text = (relativeY < -240) ? "(X: #, Y: #)" : $"(X: {(int)relativeX}, Y: {(int)relativeY})";
+        }
+
+        private void BTN_OpenFileExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos de texto (*.txt)|*.txt";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            openFileDialog.ShowDialog();
+
+            TXT_Archivo.Text = openFileDialog.FileName;
         }
     }
 }
