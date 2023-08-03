@@ -10,12 +10,16 @@
 
   <ItemGroup>
     <None Remove="Images\blank-page.png" />
+    <None Remove="Images\info.png" />
+    <None Remove="Images\information-button.png" />
     <None Remove="Images\open-folder.png" />
     <None Remove="Images\pencil.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\blank-page.png" />
+    <Resource Include="Images\info.png" />
+    <Resource Include="Images\information-button.png" />
     <Resource Include="Images\open-folder.png" />
     <Resource Include="Images\pencil.png" />
   </ItemGroup>

@@ -26,11 +26,10 @@ namespace project_dijkstra_U4
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int citiesToAdd; // Declarar citiesToAdd como una variable miembro de la clase
+        private int citiesToAdd;
 
         private const int MapRows = 20;
         private const int MapCols = 30;
-        private int adjacencies = 0;
 
         private int[,] map;
         private List<City> cities;
@@ -59,10 +58,10 @@ namespace project_dijkstra_U4
 
         private void CreateMap()
         {
-            gridMap.Children.Clear(); // Limpiamos el contenido existente antes de actualizar el mapa
+            gridMap.Children.Clear();
 
-            gridMap.RowDefinitions.Clear(); // Limpiamos las definiciones de filas
-            gridMap.ColumnDefinitions.Clear(); // Limpiamos las definiciones de columnas
+            gridMap.RowDefinitions.Clear();
+            gridMap.ColumnDefinitions.Clear();
 
             for (int row = 0; row < MapRows; row++)
             {
@@ -80,7 +79,7 @@ namespace project_dijkstra_U4
                 {
                     TextBlock textBlock = new TextBlock
                     {
-                        Text = map[row, col] == 1 ? "\u2592" : "\u2593", // \u2593   // \u2588
+                        Text = map[row, col] == 1 ? "\u2592" : "\u2593",
                         FontSize = 40,
                         Foreground = map[row, col] == 1 ? Brushes.Blue : Brushes.LightGreen,
                         Padding = new Thickness(0),
@@ -109,75 +108,19 @@ namespace project_dijkstra_U4
 
         private void BTN_Leer_Click(object sender, RoutedEventArgs e)
         {
-            cities.Clear();
-            citiesList.Clear();
-            string nombreArchivo = TXT_Archivo.Text;
-            string escritorio = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            string rutaArchivo = Path.Combine(escritorio, nombreArchivo);
+            string rutaArchivo = TXT_Archivo.Text;
+
+            if (!File.Exists(rutaArchivo))
+            {
+                MessageBox.Show("El archivo no existe");
+                return;
+            }
 
             try
             {
-                if (!File.Exists(rutaArchivo))
+                using (StreamReader lector = new StreamReader(rutaArchivo))
                 {
-                    MessageBox.Show("El archivo no existe en la ruta especificada.");
-                    return;
-                }
-
-                StreamReader lector = new StreamReader(rutaArchivo);
-
-                string linea = lector.ReadLine();
-
-                if (linea == null)
-                {
-                    MessageBox.Show("El archivo está vacío.");
-                    lector.Close();
-                    return;
-                }
-
-                if (int.TryParse(linea, out citiesToAdd)) //Pasamos el valor de la linea a la variable citiesToAdd
-                {
-                    CreateMap();
-
-                    while (!lector.EndOfStream)
-                    {
-                        linea = lector.ReadLine();
-                        adjacencies++;
-                        if (!string.IsNullOrWhiteSpace(linea)) // Verificar que la línea no esté vacía ni sea nula
-                        {
-                            string[] datos = linea.Split(' ');
-                            if (datos.Length >= 3) // Verificar que la línea contenga al menos tres elementos
-                            {
-                                string ciudad1 = datos[0];
-                                string ciudad2 = datos[1];
-                                int distancia;
-
-                                if (int.TryParse(datos[2], out distancia))
-                                {
-                                    //lógica para crear conexiones entre las ciudades basadas en las distancias
-
-                                    // Luego, si es posible, agrega las ciudades al mapa
-                                    AddCityToMap(ciudad1);
-                                    AddCityToMap(ciudad2);
-                                    // Se dibujan las líneas
-
-                                }
-                                else
-                                {
-                                    MessageBox.Show($"Error al leer la distancia en la línea: {linea}");
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show($"Formato incorrecto en la línea: {linea}");
-                            }
-                        }
-                    }
-                    GetCities();
-                    lector.Close();
-                }
-                else
-                {
-                    MessageBox.Show("El archivo no tiene un formato válido para el número de ciudades.");
+                    ProcessFile(lector);
                 }
             }
             catch (Exception ex)
@@ -186,38 +129,88 @@ namespace project_dijkstra_U4
             }
         }
 
+        private void ProcessFile(StreamReader lector)
+        {
+            cities.Clear();
+            citiesList.Clear();
+
+            string linea = lector.ReadLine();
+            if (string.IsNullOrWhiteSpace(linea))
+            {
+                MessageBox.Show("El archivo está vacío.");
+                return;
+            }
+
+            if (!int.TryParse(linea, out citiesToAdd))
+            {
+                MessageBox.Show("El archivo no tiene el formato adecuado");
+                return;
+            }
+
+            CreateMap();
+
+            while (!lector.EndOfStream)
+            {
+                ProcessLine(lector.ReadLine());
+            }
+
+            GetCities();
+        }
+
+        private void ProcessLine(string linea)
+        {
+            if (string.IsNullOrWhiteSpace(linea))
+            {
+                return;
+            }
+
+            string[] datos = linea.Split(' ');
+            if (datos.Length < 3)
+            {
+                MessageBox.Show($"Formato incorrecto en la línea: {linea}");
+                return;
+            }
+
+            string ciudad1 = datos[0];
+            string ciudad2 = datos[1];
+            int distancia;
+
+            if (!int.TryParse(datos[2], out distancia))
+            {
+                MessageBox.Show($"Error al leer la distancia en la línea: {linea}");
+                return;
+            }
+
+            AddCityToMap(ciudad1);
+            AddCityToMap(ciudad2);
+        }
+
+
         private List<City> citiesList = new List<City>();
 
         private void AddCityToMap(string cityName)
         {
+            if (cities.Count >= citiesToAdd)
+            {
+                return; // No se agregarán más ciudades si ya se ha alcanzado el límite
+            }
+
             Random random = new Random();
 
-            while (cities.Count < citiesToAdd)
+            while (true)
             {
                 int row = random.Next(MapRows);
                 int col = random.Next(MapCols);
 
                 if (map[row, col] == 0 && !CityExistsAt(row, col))
                 {
-                    // Verificar si la ciudad ya existe en la lista de ciudades
                     if (!citiesList.Any(c => c.Name == cityName))
                     {
                         City city = new City(cityName, row, col);
                         cities.Add(city);
                         citiesList.Add(city);
 
-                        Ellipse cityEllipse = new Ellipse
-                        {
-                            Width = 10,
-                            Height = 10,
-                            Fill = Brushes.Red // Punto rojo
-                        };
-
-                        // Añadir el nombre de la ciudad como un atributo del Ellipse
-                        cityEllipse.ToolTip = cityName;
-
-                        
-
+                        Ellipse cityEllipse = CreateCityEllipse(cityName);
                         Grid.SetRow(cityEllipse, row);
                         Grid.SetColumn(cityEllipse, col);
                         gridMap.Children.Add(cityEllipse);
@@ -225,7 +218,19 @@ namespace project_dijkstra_U4
                     }
                     break;
                 }
-            } 
+            }
+        }
+
+        private Ellipse CreateCityEllipse(string cityName)
+        {
+            Ellipse cityEllipse = new Ellipse
+            {
+                Width = 10,
+                Height = 10,
+                Fill = Brushes.Red,
+                ToolTip = cityName
+            };
+            return cityEllipse;
         }
 
         private void CityEllipse_MouseEnter(object sender, MouseEventArgs e)
@@ -234,37 +239,14 @@ namespace project_dijkstra_U4
             {
                 string cityName = cityEllipse.ToolTip.ToString();
 
-                // Mostrar la leyenda cerca del punto rojo
                 ToolTip tooltip = new ToolTip
                 {
                     Content = cityName,
-                    
+
                 };
-                // Establecer el ToolTip en el Ellipse para mostrar la leyenda cerca del punto rojo
+
                 cityEllipse.ToolTip = tooltip;
             }
-        }
-
-        private void CityAdjacencyLine()
-        {
-            Line objLine = new Line();
-
-            double xa = 12.55;
-            double ya = 98;
-
-            objLine.Stroke = Brushes.Violet;
-            objLine.Fill = Brushes.Yellow;
-            objLine.Width = 10;
-            objLine.Height = 10;
-            Panel.SetZIndex(objLine, int.MaxValue);
-
-            objLine.X1 = 0;
-            objLine.Y1 = 0;
-            objLine.X2 = 0;
-            objLine.Y2 = 0;
-
-            gridMap.Children.Add(objLine);
-
         }
 
         private void GetCities()

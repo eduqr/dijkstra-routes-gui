@@ -14,7 +14,7 @@
 
         <Grid Grid.Row="1" Name="gridMap" ShowGridLines="False"/>
 
-        <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="220">
+        <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="800">
             <ToolBar DockPanel.Dock="Top">
                 <Button x:Name="BTN_NewFile" Click="BTN_NewFile_Click">
                     <Button.Content>
@@ -56,21 +56,30 @@
                                 <LineBreak />
                                 en el mapa
                             </TextBlock>
+                            <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                            <WrapPanel>
+                                <Image Source="/Images/information-button.png" Margin="0,0,5,0" Width="10" Height="10" VerticalAlignment="Center"/>
+                                <TextBlock VerticalAlignment="Center" FontStyle="Italic">Debe estar un archivo selecionado</TextBlock>
+                            </WrapPanel>
                         </StackPanel>
                     </Button.ToolTip>
                 </Button>
-                <TextBlock x:Name="TB_Coords" FontSize="13" VerticalAlignment="Center" TextAlignment="Justify" Margin="10,0,0,0" Foreground="Gray" Text="(X: -999, Y: -999)"/>
+                <Separator Margin="10,3,10,3"/>
+                <TextBlock x:Name="TB_Coords" FontSize="13" VerticalAlignment="Center" TextAlignment="Justify" Foreground="Gray" Text="(X: -999, Y: -999)"/>
             </ToolBar>
         </DockPanel>
 
-        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="170,41,0,40" TextWrapping="Wrap" Width="235" IsReadOnly="True"/>
-        <Label Content="Ruta del archivo: " HorizontalAlignment="Left" Margin="45,0,0,0" VerticalAlignment="Center" Width="120" FontSize="14" FontWeight="Bold"/>
-        <Label Content="Nodo Origen: " HorizontalAlignment="Left" Margin="45,65,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontWeight="Bold"/>
-        <Label Content="Nodo Destino: " HorizontalAlignment="Left" Margin="315,65,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontWeight="Bold"/>
-        <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="150,69,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="425,69,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="170,41,0,40" TextWrapping="Wrap" Width="330" IsReadOnly="True"/>
+        <Label Content="Archivo seleccionado:" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center" Width="150" FontSize="14" FontWeight="SemiBold"/>
+        <Label Content="Ciudad origen: " HorizontalAlignment="Left" Margin="15,65,0,0" VerticalAlignment="Top" Width="100" FontSize="14"/>
+        <Label Content="Ciudad destino: " HorizontalAlignment="Left" Margin="270,65,0,0" VerticalAlignment="Top" Width="110" FontSize="14"/>
+        <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="120,69,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="380,69,0,0" VerticalAlignment="Top" Width="120"/>
 
         <!--<Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>-->
         <!--<TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" TextAlignment="Right" VerticalAlignment="Top"/>-->
+        <Canvas x:Name="myCanvas" Grid.Row="1" />
     </Grid>
+
+    
 </Window>
