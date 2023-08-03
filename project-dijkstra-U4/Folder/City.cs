@@ -12,11 +12,16 @@ namespace project_dijkstra_U4.Folder
         public int Row { get; set; }
         public int Column { get; set; }
 
-        public City(string name, int row, int column)
-        {
-            Name = name;
-            Row = row;
-            Column = column;
-        }
+        public double xPos { get; set; }
+        public double yPos { get; set; }
+
+        //public City(string name, int row, int column, int xpos, int ypos)
+        //{
+        //    Name = name;
+        //    Row = row;
+        //    Column = column;
+        //    xPos = xpos; 
+        //    yPos = ypos;
+        //}
     }
 }

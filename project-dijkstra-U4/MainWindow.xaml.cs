@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 using Path = System.IO.Path;
 
 namespace project_dijkstra_U4
@@ -38,7 +39,7 @@ namespace project_dijkstra_U4
         public MainWindow()
         {
             InitializeComponent();
-            CompositionTarget.Rendering += OnRendering;
+            CompositionTarget.Rendering += OnRendering;     // SI VAS A DEBUGUER COMENTA ESTA LÍNEA
 
             map = new int[MapRows, MapCols];
             cityEllipses = new Ellipse[MapRows, MapCols];
@@ -185,7 +186,6 @@ namespace project_dijkstra_U4
             AddCityToMap(ciudad2);
         }
 
-
         private List<City> citiesList = new List<City>();
 
         private void AddCityToMap(string cityName)
@@ -206,15 +206,25 @@ namespace project_dijkstra_U4
                 {
                     if (!citiesList.Any(c => c.Name == cityName))
                     {
-                        City city = new City(cityName, row, col);
-                        cities.Add(city);
-                        citiesList.Add(city);
+                        City city = new City();
+                        city.Name = cityName;
+                        city.Column = col;
+                        city.Row = row;
+
+                        
 
                         Ellipse cityEllipse = CreateCityEllipse(cityName);
                         Grid.SetRow(cityEllipse, row);
                         Grid.SetColumn(cityEllipse, col);
+
                         gridMap.Children.Add(cityEllipse);
                         cityEllipses[row, col] = cityEllipse;
+                        // col
+                        Point localCoord = cityEllipse.TranslatePoint(new Point(city.Column, city.Row), canvasMap);
+                        city.xPos = localCoord.X;
+                        city.yPos = localCoord.Y;
+                        cities.Add(city);
+                        citiesList.Add(city);
                     }
                     break;
                 }
@@ -225,8 +235,8 @@ namespace project_dijkstra_U4
         {
             Ellipse cityEllipse = new Ellipse
             {
-                Width = 10,
-                Height = 10,
+                Width = 20,
+                Height = 20,
                 Fill = Brushes.Red,
                 ToolTip = cityName
             };
@@ -322,6 +332,119 @@ namespace project_dijkstra_U4
 
             Process.Start("notepad.exe", path);
             TXT_Archivo.Text = path;
+        }
+
+        private void DrawLineBetweenCities(string city1Name, string city2Name)
+        {
+            City city1 = citiesList.FirstOrDefault(c => c.Name == city1Name);
+            City city2 = citiesList.FirstOrDefault(c => c.Name == city2Name);
+
+            if (city1 == null || city2 == null)
+            {
+                MessageBox.Show("Una o ambas ciudades no existen.");
+                return;
+            }
+
+            double x1 = city1.xPos * 26.13;
+            double y1 = city1.yPos * 23;
+            double x2 = city2.xPos * 26.13;
+            double y2 = city2.yPos * 23;
+
+            Line line = new Line
+            {
+                X1 = x1 + 13.06,
+                Y1 = y1 + 11.3,
+                X2 = x2 + 13.06,
+                Y2 = y2 + 11.3,
+                Stroke = Brushes.Black,
+                StrokeThickness = 2,
+                StrokeDashArray = new DoubleCollection(new double[] {2, 2})
+            };
+
+            // TEST DE TEXTO
+            TextBlock textBlock = new TextBlock
+            {
+                Background = Brushes.White,
+                Foreground = Brushes.Black,
+                Text = "3"
+            };
+
+            Canvas.SetLeft(textBlock, (x1 + x2) / 2);
+            Canvas.SetTop(textBlock, (y1 + y2) / 2);
+
+            canvasMap.Children.Add(line);
+            canvasMap.Children.Add(textBlock);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            canvasMap.Children.Clear();
+
+            string rutaArchivo = TXT_Archivo.Text;
+           
+            // Hay q acomodar esta shit
+            try
+            {
+                if (!File.Exists(rutaArchivo))
+                {
+                    MessageBox.Show("El archivo no existe");
+                    return;
+                }
+
+                StreamReader lector = new StreamReader(rutaArchivo);
+                string linea = lector.ReadLine();
+
+                if (linea == null)
+                {
+                    MessageBox.Show("El archivo está vacío.");
+                    lector.Close();
+                    return;
+                }
+
+                if (int.TryParse(linea, out citiesToAdd))
+                {
+                    
+
+                    while (!lector.EndOfStream)
+                    {
+                        linea = lector.ReadLine();
+
+                        if (!string.IsNullOrWhiteSpace(linea))
+                        {
+                            string[] datos = linea.Split(' ');
+                            if (datos.Length >= 3)
+                            {
+                                string ciudad1 = datos[0];
+                                string ciudad2 = datos[1];
+                                int distancia;
+
+                                if (int.TryParse(datos[2], out distancia))
+                                {
+                                    DrawLineBetweenCities(ciudad1, ciudad2);
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"Error al leer la distancia en la línea: {linea}");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Formato incorrecto en la línea: {linea}");
+                            }
+                        }
+                    }
+                    lector.Close();
+                }
+                else
+                {
+                    MessageBox.Show("El archivo no tiene el formato adecuado");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al intentar leer el archivo: " + ex.Message);
+            }
+
         }
     }
 }

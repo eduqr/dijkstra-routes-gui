@@ -13,6 +13,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1" Name="gridMap" ShowGridLines="False"/>
+        <Canvas x:Name="canvasMap" Grid.Row="1"/>
 
         <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="800">
             <ToolBar DockPanel.Dock="Top">
@@ -75,11 +76,7 @@
         <Label Content="Ciudad destino: " HorizontalAlignment="Left" Margin="270,65,0,0" VerticalAlignment="Top" Width="110" FontSize="14"/>
         <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="120,69,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="380,69,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="602,51,0,0" VerticalAlignment="Top" Click="Button_Click"/>
 
-        <!--<Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>-->
-        <!--<TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" TextAlignment="Right" VerticalAlignment="Top"/>-->
-        <Canvas x:Name="myCanvas" Grid.Row="1" />
     </Grid>
-
-    
 </Window>
