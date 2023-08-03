@@ -184,6 +184,16 @@ namespace project_dijkstra_U4
 
             AddCityToMap(ciudad1);
             AddCityToMap(ciudad2);
+
+            City city1 = citiesList.FirstOrDefault(c => c.Name == ciudad1);
+            City city2 = citiesList.FirstOrDefault(c => c.Name == ciudad2);
+
+            // Agregar la conexión entre las ciudades
+            if (city1 != null && city2 != null)
+            {
+                city1.AddConnection(ciudad1, ciudad2, distancia);
+                city2.AddConnection(ciudad2, ciudad1, distancia);
+            }
         }
 
         private List<City> citiesList = new List<City>();
@@ -446,5 +456,104 @@ namespace project_dijkstra_U4
             }
 
         }
+
+        private void BTN_CalcularRuta_Click(object sender, RoutedEventArgs e)
+        {
+            // Obtener las ciudades seleccionadas por el usuario
+            City origen = (City)CBox_Origen.SelectedItem;
+            City destino = (City)CBox_Destino.SelectedItem;
+
+            if (origen == null || destino == null)
+            {
+                MessageBox.Show("Por favor, selecciona una ciudad de origen y una ciudad de destino.");
+                return;
+            }
+
+            // Implementar el algoritmo de Dijkstra para encontrar la ruta más corta y la distancia total
+            Tuple<List<City>, int> resultadoDijkstra = Dijkstra(origen, destino);
+            List<City> rutaMasCorta = resultadoDijkstra.Item1;
+            int distanciaTotal = resultadoDijkstra.Item2;
+
+            // Mostrar la ruta resultante y la distancia total en el TextBox
+            if (rutaMasCorta != null && rutaMasCorta.Count > 1)
+            {
+                StringBuilder rutaBuilder = new StringBuilder();
+                foreach (var ciudad in rutaMasCorta)
+                {
+                    rutaBuilder.AppendLine(ciudad.Name);
+                }
+                TB_Ruta.Text = rutaBuilder.ToString();
+                TB_Distancia.Text = $"Distancia total: {distanciaTotal}";
+            }
+            else
+            {
+                TB_Ruta.Text = "No se encontró una ruta válida entre las ciudades seleccionadas.";
+                TB_Distancia.Text = "";
+            }
+        }
+        private Tuple<List<City>, int> Dijkstra(City origen, City destino)
+        {
+            Dictionary<City, int> distancias = new Dictionary<City, int>();
+            Dictionary<City, City> previos = new Dictionary<City, City>();
+            HashSet<City> visitados = new HashSet<City>();
+
+            foreach (var city in citiesList)
+            {
+                distancias[city] = int.MaxValue;
+                previos[city] = null;
+            }
+
+            distancias[origen] = 0;
+
+            while (visitados.Count < citiesList.Count)
+            {
+                City actual = null;
+                int minDistancia = int.MaxValue;
+
+                foreach (var city in citiesList)
+                {
+                    if (!visitados.Contains(city) && distancias[city] < minDistancia)
+                    {
+                        minDistancia = distancias[city];
+                        actual = city;
+                    }
+                }
+
+                if (actual == null)
+                    break;
+
+                visitados.Add(actual);
+
+                foreach (var conexion in actual.Connections)
+                {
+                    City vecino = citiesList.FirstOrDefault(c => c.Name == conexion.ToCity);
+
+                    if (vecino != null && !visitados.Contains(vecino))
+                    {
+                        int distanciaACiudadVecina = distancias[actual] + conexion.Distance;
+                        if (distanciaACiudadVecina < distancias[vecino])
+                        {
+                            distancias[vecino] = distanciaACiudadVecina;
+                            previos[vecino] = actual;
+                        }
+                    }
+                }
+            }
+
+            // Construir la ruta desde el destino hacia el origen
+            List<City> ruta = new List<City>();
+            City actualCity = destino;
+            while (actualCity != null)
+            {
+                ruta.Insert(0, actualCity);
+                actualCity = previos[actualCity];
+            }
+
+            // Obtener la distancia total desde el origen hasta el destino
+            int distanciaTotal = distancias[destino];
+
+            return Tuple.Create(ruta, distanciaTotal);
+        }
+
     }
 }

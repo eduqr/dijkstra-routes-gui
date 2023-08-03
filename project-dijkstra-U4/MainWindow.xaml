@@ -76,7 +76,10 @@
         <Label Content="Ciudad destino: " HorizontalAlignment="Left" Margin="270,65,0,0" VerticalAlignment="Top" Width="110" FontSize="14"/>
         <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="120,69,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="380,69,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="602,51,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="505,0,0,0" VerticalAlignment="Center" Click="Button_Click"/>
+        <Button x:Name="BTN_CalcularRuta" Content="Calcular Ruta" HorizontalAlignment="Left" Margin="531,74,0,0" VerticalAlignment="Top" Click="BTN_CalcularRuta_Click"/>
+        <TextBox x:Name="TB_Ruta" HorizontalAlignment="Left" Height="48" Margin="609,46,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="TB_Distancia" HorizontalAlignment="Left" Margin="703,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="61"/>
 
     </Grid>
 </Window>
