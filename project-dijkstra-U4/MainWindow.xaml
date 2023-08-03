@@ -16,7 +16,7 @@
 
         <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="220">
             <ToolBar DockPanel.Dock="Top">
-                <Button>
+                <Button x:Name="BTN_NewFile" Click="BTN_NewFile_Click">
                     <Button.Content>
                         <Image Source="/Images/blank-page.png" Width="16" Height="16" />
                     </Button.Content>
@@ -63,8 +63,8 @@
             </ToolBar>
         </DockPanel>
 
-        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="170,41,0,40" TextWrapping="Wrap" Width="235" IsReadOnly="True"/>
-        <Label Content="Ruta del archivo: " HorizontalAlignment="Left" Margin="45,0,0,0" VerticalAlignment="Center" Width="120" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="135,41,0,40" TextWrapping="Wrap" Width="290" IsReadOnly="True"/>
+        <Label Content="Ruta del archivo: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="120" FontSize="14" FontWeight="Bold"/>
         <!--<Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>-->
         <!--<TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" TextAlignment="Right" VerticalAlignment="Top"/>-->
     </Grid>

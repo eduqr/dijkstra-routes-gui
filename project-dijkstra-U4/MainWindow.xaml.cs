@@ -2,6 +2,7 @@
 using project_dijkstra_U4.Folder;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -268,6 +269,44 @@ namespace project_dijkstra_U4
             openFileDialog.ShowDialog();
 
             TXT_Archivo.Text = openFileDialog.FileName;
+        }
+
+        private void BTN_NewFile_Click(object sender, RoutedEventArgs e)
+        {
+            string baseFileName = "CiudadesID";
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string path;
+
+            int fileNumber = 1;
+            while (true)
+            {
+                string fileName = $"{baseFileName}({fileNumber}).txt";
+                path = Path.Combine(desktop, fileName);
+
+                if (!File.Exists(path))
+                {
+                    break;
+                }
+
+                fileNumber++;
+            }
+
+            StringBuilder contentBuilder = new StringBuilder();
+            contentBuilder.AppendLine("/**********************************************************************/");
+            contentBuilder.AppendLine("/*                         dijkstra-routes-gui                        */");
+            contentBuilder.AppendLine("/*                                                                    */");
+            contentBuilder.AppendLine("/*              https://github.com/eduqr/dijkstra-routes              */");
+            contentBuilder.AppendLine("/**********************************************************************/");
+            contentBuilder.AppendLine("/* <total_ciudades>                                                   */");
+            contentBuilder.AppendLine("/* <ciudad_1> <ciudad_2> <distancia>                                  */");
+            contentBuilder.AppendLine("/*                                                                    */");
+            contentBuilder.AppendLine("/* BORRE TODO EL CONTENIDO DE ESTE ARCHIVO Y GUARDE DESPUÉS DE EDITAR */");
+            contentBuilder.AppendLine("/**********************************************************************/");
+
+            File.WriteAllText(path, contentBuilder.ToString());
+
+            Process.Start("notepad.exe", path);
+            TXT_Archivo.Text = path;
         }
     }
 }
