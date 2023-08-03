@@ -92,9 +92,9 @@
         <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="120,69,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="380,69,0,0" VerticalAlignment="Top" Width="120"/>
         <!--<Button x:Name="BTN_CalcularRuta" Content="Calcular Ruta" HorizontalAlignment="Left" Margin="531,74,0,0" VerticalAlignment="Top" Click="BTN_CalcularRuta_Click"/>-->
-        
-        <ListBox x:Name="LB_RutaMasCorta" Margin="515,36,136,5" Visibility="Visible"/>
-        <Label x:Name="LBL_DistanciaMinima" Content="Distancia total:" HorizontalAlignment="Left" Margin="657,51,0,0" VerticalAlignment="Top" Width="131" Visibility="Visible" Foreground="DarkGreen" FontWeight="SemiBold"/>
+
+        <ListBox x:Name="LB_RutaMasCorta" Margin="515,36,136,5" BorderThickness="1,0,1,0" Visibility="Collapsed"/>
+        <Label x:Name="LBL_DistanciaMinima" Content="Distancia total:" HorizontalAlignment="Left" Margin="657,51,0,0" VerticalAlignment="Top" Width="131" Visibility="Collapsed" Foreground="DarkGreen" Opacity="70" FontWeight="SemiBold"/>
 
     </Grid>
 </Window>

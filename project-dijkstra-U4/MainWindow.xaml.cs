@@ -345,7 +345,7 @@ namespace project_dijkstra_U4
             TXT_Archivo.Text = path;
         }
 
-        private void DrawLineBetweenCities(string city1Name, string city2Name)
+        private void DrawLineBetweenCities(string city1Name, string city2Name, string distance)
         {
             City city1 = citiesList.FirstOrDefault(c => c.Name == city1Name);
             City city2 = citiesList.FirstOrDefault(c => c.Name == city2Name);
@@ -374,17 +374,16 @@ namespace project_dijkstra_U4
 
             canvasMap.Children.Add(line);
 
-            // TEST DE TEXTO ///////////////
-            //TextBlock textBlock = new TextBlock
-            //{
-            //    Background = Brushes.White,
-            //    Foreground = Brushes.Black,
-            //    Text = ""
-            //};
+            TextBlock textBlock = new TextBlock
+            {
+                Foreground = Brushes.Black,
+                Text = city1Name + "_" + city2Name + "(" + distance + ")",
+                FontWeight = FontWeights.Bold,
+            };
 
-            //Canvas.SetLeft(textBlock, (x1 + x2) / 2);
-            //Canvas.SetTop(textBlock, (y1 + y2) / 2);
-            //canvasMap.Children.Add(textBlock);
+            Canvas.SetLeft(textBlock, (x1 + x2) / 2);
+            Canvas.SetTop(textBlock, (y1 + y2) / 2);
+            canvasMap.Children.Add(textBlock);
         }
 
         private void DibujarRutas()
@@ -429,7 +428,7 @@ namespace project_dijkstra_U4
 
                                 if (int.TryParse(datos[2], out distancia))
                                 {
-                                    DrawLineBetweenCities(ciudad1, ciudad2);
+                                    DrawLineBetweenCities(ciudad1, ciudad2, datos[2]);
                                 }
                                 else
                                 {
