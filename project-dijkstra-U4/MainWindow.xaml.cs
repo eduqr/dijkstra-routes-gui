@@ -480,13 +480,16 @@ namespace project_dijkstra_U4
                 {
                     rutaBuilder.AppendLine(ciudad.Name);
                 }
-                TB_Ruta.Text = rutaBuilder.ToString();
-                TB_Distancia.Text = $"Distancia total: {distanciaTotal}";
+                
+                LB_RutaMasCorta.ItemsSource = rutaMasCorta.Select(ciudad => ciudad.Name);
+                LBL_DistanciaMinima.Content = $"Distancia total: {distanciaTotal} km";
+                LB_RutaMasCorta.Visibility = Visibility.Visible;
+                LBL_DistanciaMinima.Visibility = Visibility.Visible;
             }
             else
             {
-                TB_Ruta.Text = "No se encontró una ruta válida entre las ciudades seleccionadas.";
-                TB_Distancia.Text = "";
+                LB_RutaMasCorta.ItemsSource = new List<string> { "No se encontró una ruta válida entre las ciudades seleccionadas." };
+                LB_RutaMasCorta.Visibility = Visibility.Visible;
             }
         }
         private Tuple<List<City>, int> Dijkstra(City origen, City destino)
