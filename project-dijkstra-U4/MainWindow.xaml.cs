@@ -484,15 +484,18 @@ namespace project_dijkstra_U4
                 LBL_DistanciaMinima.Content = $"Distancia total: {distanciaTotal} km";
                 LB_RutaMasCorta.Visibility = Visibility.Visible;
                 LBL_DistanciaMinima.Visibility = Visibility.Visible;
+                DrawFastestRoute(CBox_Destino.Text);
             }
             else
             {
                 LB_RutaMasCorta.ItemsSource = new List<string> { "No se encontró una ruta válida entre las ciudades seleccionadas." };
-                LB_RutaMasCorta.Visibility = Visibility.Visible;
+                LB_RutaMasCorta.Visibility = Visibility.Hidden;
             }
         }
+        List<string> route = new List<string>();
         private Tuple<List<City>, int> Dijkstra(City origen, City destino)
         {
+            route.Clear();
             Dictionary<City, int> distancias = new Dictionary<City, int>();
             Dictionary<City, City> previos = new Dictionary<City, City>();
             HashSet<City> visitados = new HashSet<City>();
@@ -546,6 +549,7 @@ namespace project_dijkstra_U4
             while (actualCity != null)
             {
                 ruta.Insert(0, actualCity);
+                route.Insert(0,actualCity.Name);
                 actualCity = previos[actualCity];
             }
 
@@ -553,6 +557,54 @@ namespace project_dijkstra_U4
             int distanciaTotal = distancias[destino];
 
             return Tuple.Create(ruta, distanciaTotal);
+        }
+
+        private void DrawFastestRoute(string destino)
+        {
+            canvasMap.Children.Clear();
+            string[] ruta = route.ToArray();
+            int i = 0;
+
+            do
+            {
+                City city1 = citiesList.FirstOrDefault(c => c.Name == ruta[i]);
+                City city2 = citiesList.FirstOrDefault(c => c.Name == ruta[i+1]);
+
+                if (city1 == null || city2 == null)
+                {
+                    MessageBox.Show("Una o ambas ciudades no existen.");
+                    return;
+                }
+
+                double x1 = city1.xPos * 26.13;
+                double y1 = city1.yPos * 23;
+                double x2 = city2.xPos * 26.13;
+                double y2 = city2.yPos * 23;
+
+                Line line = new Line
+                {
+                    X1 = x1 + 13.06,
+                    Y1 = y1 + 11.3,
+                    X2 = x2 + 13.06,
+                    Y2 = y2 + 11.3,
+                    Stroke = Brushes.DarkBlue,
+                    StrokeThickness = 2,
+                };
+
+                canvasMap.Children.Add(line);
+
+                TextBlock textBlock = new TextBlock
+                {
+                    Foreground = Brushes.Black,
+                    Text = city1.Name + "_" + city2.Name + "(" +(i+1)+")",
+                    FontWeight = FontWeights.Bold,
+                };
+
+                Canvas.SetLeft(textBlock, (x1 + x2) / 2);
+                Canvas.SetTop(textBlock, (y1 + y2) / 2);
+                canvasMap.Children.Add(textBlock);
+                i++;
+            } while (route[i]!=destino);
         }
 
     }
