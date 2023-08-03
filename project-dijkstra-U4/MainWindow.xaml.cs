@@ -30,11 +30,12 @@ namespace project_dijkstra_U4
 
         private const int MapRows = 20;
         private const int MapCols = 30;
+        private int adjacencies = 0;
 
         private int[,] map;
         private List<City> cities;
         private Ellipse[,] cityEllipses;
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -54,7 +55,6 @@ namespace project_dijkstra_U4
             }
 
             CreateMap();
-            
         }
 
         private void CreateMap()
@@ -141,6 +141,7 @@ namespace project_dijkstra_U4
                     while (!lector.EndOfStream)
                     {
                         linea = lector.ReadLine();
+                        adjacencies++;
                         if (!string.IsNullOrWhiteSpace(linea)) // Verificar que la línea no esté vacía ni sea nula
                         {
                             string[] datos = linea.Split(' ');
@@ -157,6 +158,8 @@ namespace project_dijkstra_U4
                                     // Luego, si es posible, agrega las ciudades al mapa
                                     AddCityToMap(ciudad1);
                                     AddCityToMap(ciudad2);
+                                    // Se dibujan las líneas
+
                                 }
                                 else
                                 {
@@ -169,7 +172,7 @@ namespace project_dijkstra_U4
                             }
                         }
                     }
-
+                    GetCities();
                     lector.Close();
                 }
                 else
@@ -222,7 +225,7 @@ namespace project_dijkstra_U4
                     }
                     break;
                 }
-            }
+            } 
         }
 
         private void CityEllipse_MouseEnter(object sender, MouseEventArgs e)
@@ -240,6 +243,36 @@ namespace project_dijkstra_U4
                 // Establecer el ToolTip en el Ellipse para mostrar la leyenda cerca del punto rojo
                 cityEllipse.ToolTip = tooltip;
             }
+        }
+
+        private void CityAdjacencyLine()
+        {
+            Line objLine = new Line();
+
+            double xa = 12.55;
+            double ya = 98;
+
+            objLine.Stroke = Brushes.Violet;
+            objLine.Fill = Brushes.Yellow;
+            objLine.Width = 10;
+            objLine.Height = 10;
+            Panel.SetZIndex(objLine, int.MaxValue);
+
+            objLine.X1 = 0;
+            objLine.Y1 = 0;
+            objLine.X2 = 0;
+            objLine.Y2 = 0;
+
+            gridMap.Children.Add(objLine);
+
+        }
+
+        private void GetCities()
+        {
+            CBox_Origen.ItemsSource = cities;
+            CBox_Destino.ItemsSource = cities;
+            CBox_Origen.DisplayMemberPath = "Name";
+            CBox_Destino.DisplayMemberPath = "Name";
         }
 
         private void OnRendering(object sender, EventArgs e)

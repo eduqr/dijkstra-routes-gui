@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:project_dijkstra_U4"
         mc:Ignorable="d"
         Title="Rutas mínimas de ciudades" ResizeMode="CanMinimize" Height="600" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Name="gridMap" ShowGridLines="False" Margin="0"/>
+        <Grid Grid.Row="1" Name="gridMap" ShowGridLines="False"/>
 
         <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="220">
             <ToolBar DockPanel.Dock="Top">
@@ -63,8 +63,13 @@
             </ToolBar>
         </DockPanel>
 
-        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="135,41,0,40" TextWrapping="Wrap" Width="290" IsReadOnly="True"/>
-        <Label Content="Ruta del archivo: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="120" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="TXT_Archivo" HorizontalAlignment="Left" Margin="170,41,0,40" TextWrapping="Wrap" Width="235" IsReadOnly="True"/>
+        <Label Content="Ruta del archivo: " HorizontalAlignment="Left" Margin="45,0,0,0" VerticalAlignment="Center" Width="120" FontSize="14" FontWeight="Bold"/>
+        <Label Content="Nodo Origen: " HorizontalAlignment="Left" Margin="45,65,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontWeight="Bold"/>
+        <Label Content="Nodo Destino: " HorizontalAlignment="Left" Margin="315,65,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontWeight="Bold"/>
+        <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="150,69,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="425,69,0,0" VerticalAlignment="Top" Width="120"/>
+
         <!--<Button x:Name="BTN_Leer" Content="Leer" HorizontalAlignment="Left" Margin="511,35,0,0" VerticalAlignment="Top" Height="33" Width="139" Click="BTN_Leer_Click"/>-->
         <!--<TextBlock x:Name="TB_Coords" HorizontalAlignment="Right" FontSize="16" TextAlignment="Right" VerticalAlignment="Top"/>-->
     </Grid>
