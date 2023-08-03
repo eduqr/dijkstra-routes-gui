@@ -128,6 +128,7 @@ namespace project_dijkstra_U4
             {
                 MessageBox.Show("Error al intentar leer el archivo: " + ex.Message);
             }
+            DibujarRutas();
         }
 
         private void ProcessFile(StreamReader lector)
@@ -371,22 +372,22 @@ namespace project_dijkstra_U4
                 StrokeDashArray = new DoubleCollection(new double[] {2, 2})
             };
 
-            // TEST DE TEXTO
-            TextBlock textBlock = new TextBlock
-            {
-                Background = Brushes.White,
-                Foreground = Brushes.Black,
-                Text = "3"
-            };
-
-            Canvas.SetLeft(textBlock, (x1 + x2) / 2);
-            Canvas.SetTop(textBlock, (y1 + y2) / 2);
-
             canvasMap.Children.Add(line);
-            canvasMap.Children.Add(textBlock);
+
+            // TEST DE TEXTO ///////////////
+            //TextBlock textBlock = new TextBlock
+            //{
+            //    Background = Brushes.White,
+            //    Foreground = Brushes.Black,
+            //    Text = ""
+            //};
+
+            //Canvas.SetLeft(textBlock, (x1 + x2) / 2);
+            //Canvas.SetTop(textBlock, (y1 + y2) / 2);
+            //canvasMap.Children.Add(textBlock);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DibujarRutas()
         {
             canvasMap.Children.Clear();
 
@@ -413,8 +414,6 @@ namespace project_dijkstra_U4
 
                 if (int.TryParse(linea, out citiesToAdd))
                 {
-                    
-
                     while (!lector.EndOfStream)
                     {
                         linea = lector.ReadLine();
@@ -454,7 +453,6 @@ namespace project_dijkstra_U4
             {
                 MessageBox.Show("Error al intentar leer el archivo: " + ex.Message);
             }
-
         }
 
         private void BTN_CalcularRuta_Click(object sender, RoutedEventArgs e)

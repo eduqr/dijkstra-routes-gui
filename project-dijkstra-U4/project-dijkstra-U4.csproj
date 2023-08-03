@@ -14,6 +14,7 @@
     <None Remove="Images\information-button.png" />
     <None Remove="Images\open-folder.png" />
     <None Remove="Images\pencil.png" />
+    <None Remove="Images\road-map.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +23,7 @@
     <Resource Include="Images\information-button.png" />
     <Resource Include="Images\open-folder.png" />
     <Resource Include="Images\pencil.png" />
+    <Resource Include="Images\road-map.png" />
   </ItemGroup>
 
 </Project>

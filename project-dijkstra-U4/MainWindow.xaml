@@ -17,7 +17,7 @@
 
         <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="800">
             <ToolBar DockPanel.Dock="Top">
-                <Button x:Name="BTN_NewFile" Click="BTN_NewFile_Click">
+                <Button x:Name="BTN_NewFile" Click="BTN_NewFile_Click" Margin="0,0,15,0">
                     <Button.Content>
                         <Image Source="/Images/blank-page.png" Width="16" Height="16" />
                     </Button.Content>
@@ -30,7 +30,7 @@
                         </StackPanel>
                     </Button.ToolTip>
                 </Button>
-                <Button x:Name="BTN_OpenFileExplorer" Click="BTN_OpenFileExplorer_Click">
+                <Button x:Name="BTN_OpenFileExplorer" Click="BTN_OpenFileExplorer_Click" Margin="0,0,15,0">
                     <Button.Content>
                         <Image Source="/Images/open-folder.png" Width="16" Height="16" />
                     </Button.Content>
@@ -45,7 +45,7 @@
                         </StackPanel>
                     </Button.ToolTip>
                 </Button>
-                <Button x:Name="BTN_Leer" Click="BTN_Leer_Click">
+                <Button x:Name="BTN_Leer" Click="BTN_Leer_Click" Margin="0,0,15,0">
                     <Button.Content>
                         <Image Source="/Images/pencil.png" Width="16" Height="16" />
                     </Button.Content>
@@ -65,6 +65,21 @@
                         </StackPanel>
                     </Button.ToolTip>
                 </Button>
+                <Button x:Name="BTN_CalcularRuta" Click="BTN_CalcularRuta_Click">
+                    <Button.Content>
+                        <Image Source="/Images/road-map.png" Width="16" Height="16" />
+                    </Button.Content>
+                    <Button.ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="SemiBold" FontSize="14" Margin="0,0,0,5">Calcular distancia</TextBlock>
+                            <TextBlock>
+                                Calcular la distancia mínima y las 
+                                <LineBreak />
+                                ciudades a recorrer usando Dijkstra
+                            </TextBlock>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button>
                 <Separator Margin="10,3,10,3"/>
                 <TextBlock x:Name="TB_Coords" FontSize="13" VerticalAlignment="Center" TextAlignment="Justify" Foreground="Gray" Text="(X: -999, Y: -999)"/>
             </ToolBar>
@@ -76,8 +91,7 @@
         <Label Content="Ciudad destino: " HorizontalAlignment="Left" Margin="270,65,0,0" VerticalAlignment="Top" Width="110" FontSize="14"/>
         <ComboBox x:Name="CBox_Origen" HorizontalAlignment="Left" Margin="120,69,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CBox_Destino" HorizontalAlignment="Left" Margin="380,69,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="505,0,0,0" VerticalAlignment="Center" Click="Button_Click"/>
-        <Button x:Name="BTN_CalcularRuta" Content="Calcular Ruta" HorizontalAlignment="Left" Margin="531,74,0,0" VerticalAlignment="Top" Click="BTN_CalcularRuta_Click"/>
+        <!--<Button x:Name="BTN_CalcularRuta" Content="Calcular Ruta" HorizontalAlignment="Left" Margin="531,74,0,0" VerticalAlignment="Top" Click="BTN_CalcularRuta_Click"/>-->
         <TextBox x:Name="TB_Ruta" HorizontalAlignment="Left" Height="48" Margin="609,46,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="75"/>
         <TextBox x:Name="TB_Distancia" HorizontalAlignment="Left" Margin="703,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="61"/>
 
