@@ -392,7 +392,7 @@ namespace project_dijkstra_U4
 
             string rutaArchivo = TXT_Archivo.Text;
            
-            // Hay q acomodar esta shit
+            
             try
             {
                 if (!File.Exists(rutaArchivo))
@@ -490,8 +490,12 @@ namespace project_dijkstra_U4
             {
                 LB_RutaMasCorta.ItemsSource = new List<string> { "No se encontró una ruta válida entre las ciudades seleccionadas." };
                 LB_RutaMasCorta.Visibility = Visibility.Hidden;
+                LBL_DistanciaMinima.Content = "No hay rutas";
             }
+            BTN_Leer.IsEnabled = false;
         }
+
+
         List<string> route = new List<string>();
         private Tuple<List<City>, int> Dijkstra(City origen, City destino)
         {
@@ -550,11 +554,25 @@ namespace project_dijkstra_U4
             {
                 ruta.Insert(0, actualCity);
                 route.Insert(0,actualCity.Name);
-                actualCity = previos[actualCity];
+                // Verificar si la ciudad actual está en el diccionario previos
+                if (previos.TryGetValue(actualCity, out City ciudadPrevia))
+                {
+                    actualCity = ciudadPrevia;
+                }
+                else
+                {
+                    // La ciudad actual no tiene una ciudad previa, no hay una ruta válida
+                    break;
+                }
             }
 
             // Obtener la distancia total desde el origen hasta el destino
-            int distanciaTotal = distancias[destino];
+            if (!distancias.TryGetValue(destino, out int distanciaTotal))
+            {
+                // La ciudad destino no tiene una distancia válida desde el origen
+                // Puedes elegir algún valor especial para indicar que no hay una ruta válida
+                distanciaTotal = int.MaxValue;
+            }
 
             return Tuple.Create(ruta, distanciaTotal);
         }
