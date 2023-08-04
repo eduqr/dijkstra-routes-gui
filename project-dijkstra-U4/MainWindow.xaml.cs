@@ -97,6 +97,19 @@ namespace project_dijkstra_U4
             }
         }
 
+        private void BTN_Restart_Click(object sender, RoutedEventArgs e)
+        {
+            var currentWindow = System.Windows.Application.Current.MainWindow;
+            var windowType = currentWindow.GetType();
+
+            var newWindow = Activator.CreateInstance(windowType) as Window;
+
+            System.Windows.Application.Current.MainWindow = newWindow;
+            currentWindow.Close();
+
+            newWindow.Show();
+        }
+
         private bool CityExistsAt(int row, int col)
         {
             foreach (var city in cities)
@@ -109,6 +122,11 @@ namespace project_dijkstra_U4
 
         private void BTN_Leer_Click(object sender, RoutedEventArgs e)
         {
+            if (CBox_Origen.SelectedItem != null || CBox_Destino.SelectedItem != null)
+            {
+                CambiarEstadoBotones();
+                return;
+            }
             string rutaArchivo = TXT_Archivo.Text;
 
             if (!File.Exists(rutaArchivo))
@@ -492,7 +510,8 @@ namespace project_dijkstra_U4
                 LB_RutaMasCorta.Visibility = Visibility.Hidden;
                 LBL_DistanciaMinima.Content = "No hay rutas";
             }
-            BTN_Leer.IsEnabled = false;
+
+            CambiarEstadoBotones();
         }
 
 
@@ -625,5 +644,40 @@ namespace project_dijkstra_U4
             } while (route[i]!=destino);
         }
 
+        private void CambiarEstadoBotones()
+        {
+            BTN_Leer.IsEnabled = false;
+            BTN_OpenFileExplorer.IsEnabled = false;
+            BTN_NewFile.IsEnabled = false;
+            BTN_OpenFileExplorer.Opacity = 0.5;
+            BTN_Leer.Opacity = 0.5;
+            BTN_NewFile.Opacity = 0.5;
+            ToolTipService.SetShowOnDisabled(BTN_Leer, true);
+            ToolTipService.SetShowOnDisabled(BTN_NewFile, true);
+            ToolTipService.SetShowOnDisabled(BTN_OpenFileExplorer, true);
+            var toolTip = new ToolTip();
+            var toolTipContent = new StackPanel();
+
+            var titleTextBlock = new TextBlock
+            {
+                Text = "Botón deshabilitado",
+                FontWeight = FontWeights.SemiBold,
+                FontSize = 14,
+                Margin = new Thickness(0, 0, 0, 5)
+            };
+            toolTipContent.Children.Add(titleTextBlock);
+
+            var descriptionTextBlock = new TextBlock
+            {
+                Text = "Genere un nuevo mapa para habilitar",
+                FontStyle = FontStyles.Italic
+            };
+            toolTipContent.Children.Add(descriptionTextBlock);
+
+            toolTip.Content = toolTipContent;
+            BTN_Leer.ToolTip = toolTip;
+            BTN_NewFile.ToolTip = toolTip;
+            BTN_OpenFileExplorer.ToolTip = toolTip;
+        }
     }
 }
